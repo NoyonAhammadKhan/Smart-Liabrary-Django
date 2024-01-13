@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Category, Book, BookIssueRetrunHistory, Review
 from user_app.models import UserAccount
 from .forms import ReviewForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -25,6 +26,7 @@ def filter_book(request, id):
     return render(request, 'home.html', {'books': books, 'books_count': books_count, 'category': category.category, 'categories': categories})
 
 
+@login_required
 def issue_book(request, id):
     book = Book.objects.get(pk=id)
     user = request.user
@@ -53,6 +55,7 @@ def issue_book(request, id):
         return redirect('deposit')
 
 
+@login_required
 def return_book(request, id):
     book_return_history = BookIssueRetrunHistory.objects.get(pk=id)
     book_return_history.is_returned = True
@@ -77,8 +80,9 @@ def return_book(request, id):
     return redirect('history')
 
 
+@login_required
 def history(request):
-    user = request.user
+    user = request.user.email
     account = UserAccount.objects.get(user=user)
     all_history = BookIssueRetrunHistory.objects.filter(account=account)
     return render(request, 'book_issue_history.html', {'all_history': all_history})
@@ -101,6 +105,7 @@ def book_details(request, id):
     return render(request, 'book_details.html', {'book': book, 'is_issued': is_issued, 'reviews': reviews})
 
 
+@login_required
 def review_book(request, id):
     book = Book.objects.get(pk=id)
     form = ReviewForm()
