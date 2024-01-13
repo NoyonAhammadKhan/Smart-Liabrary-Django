@@ -1,0 +1,47 @@
+{% extends 'base.html' %}{% block body_block %}
+<div class="row">
+  <div class="col col-3 filter">
+    <h3>Apply Filter</h3>
+    {% comment %} {{categories}} {% endcomment %}
+    <div>
+      <a href={% url 'home' %}>
+        <button type="button" class="btn btn-outline-info">
+          All 
+        </button>
+      </a>
+
+     
+      {% for cat in categories %}
+      <a href={% url 'filter_book' id=cat.id %}>
+        <button type="button" class="btn btn-outline-info">
+          {{cat}} 
+        </button>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="col col-9">
+    <div class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom:30px;">
+      {% for book in books %}
+      <div class="col">
+        <div class="card h-100">
+          <img style="height:20rem;width:100%;" src="{{book.image.url}}" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">{{book.title}}</h5>
+            <p class="card-text">
+             {{book.description |truncatewords:10}}
+            </p>
+            <p class="card-text">
+              Borrow Price: {{book.borrowing_price}}
+             </p>
+            <a href={% url 'book_details' id=book.id %}>
+              <button type="button" class="btn btn-outline-primary">Details</button>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

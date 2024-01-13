@@ -1,0 +1,41 @@
+{% extends 'base.html' %}{% block body_block %}
+<h1 class="text-center" style="margin-top: 50px">Book Details</h1>
+<div class="" style="margin-top: 78px">
+  <div class="mb-5">
+    <div class="card" style="width: 70rem; height: 29rem">
+      <div class="d-flex row align-items-center">
+        <div class="col col-5">
+          <img
+            src="{{book.image.url}}"
+            style="max-height: 30rem"
+            class="card-img-top"
+            alt="..."
+          />
+        </div>
+        <div class="card-body col col-7">
+          <h5 class="card-title">{{book.title}}</h5>
+          <p class="card-text">{{book.description}}</p>
+          <p class="card-text">Category: {{book.categories}}</p>
+          <p class="card-text">Category: {{book.borrowing_price}}</p>
+          {% if is_issued %}
+          <a href="{% url 'review_book' id=book.id %}" class="btn btn-primary"
+            >Review Book</a
+          >
+          {% else %}
+          <a href="{% url 'borrow_book' id=book.id %}" class="btn btn-primary"
+            >Borrow Book</a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5">
+    {% for review in reviews%}
+    <div class="border border-2 border-info mb-3">
+      <h4>{{review.review}}</h4>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

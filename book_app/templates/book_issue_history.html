@@ -1,0 +1,51 @@
+{% extends 'base.html' %}{% block body_block %}
+
+<h1 class="text-center fw-bold mb-5">Book Issue Return History</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Borrowing Time</th>
+      <th scope="col">Borrowing Price</th>
+      <th scope="col">Type</th>
+      <th scope="col">Before Balance</th>
+      <th scope="col">After Balance</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in all_history %}
+
+    <tr>
+      <th>{{book.id}}</th>
+      <th>{{book.book.title}}</th>
+      <th>{{book.date}}</th>
+      <td>{{book.borrowing_price}}</td>
+      {% if book.type == 1 %}
+      <td>Borrowed</td>
+      {% elif book.type == 2 %}
+      <td>Return</td>
+      {% endif %}
+      <td>{{book.before_balance}}</td>
+      <td>{{book.after_balance}}</td>
+      {% if book.type == 1 and book.is_returned == False %}
+      <td>
+        <a href="{% url 'return_book' id=book.id %}">
+          <button type="button" class="btn btn-warning">Return</button>
+        </a>
+      </td>
+      {% elif book.type == 1 and book.is_returned == True %}
+      <td>
+        <button type="button" class="btn btn-info disabled">
+          Already Returned
+        </button>
+      </td>
+
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
