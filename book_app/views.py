@@ -78,7 +78,9 @@ def return_book(request, id):
 
 
 def history(request):
-    all_history = BookIssueRetrunHistory.objects.all()
+    user = request.user
+    account = UserAccount.objects.get(user=user)
+    all_history = BookIssueRetrunHistory.objects.filter(account=account)
     return render(request, 'book_issue_history.html', {'all_history': all_history})
 
 
