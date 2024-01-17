@@ -82,7 +82,7 @@ def return_book(request, id):
 
 @login_required
 def history(request):
-    user = request.user.email
+    user = request.user
     account = UserAccount.objects.get(user=user)
     all_history = BookIssueRetrunHistory.objects.filter(account=account)
     return render(request, 'book_issue_history.html', {'all_history': all_history})
